@@ -1,7 +1,172 @@
 ﻿<!DOCTYPE html>
 <html>
-<body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages</p>
-</body>
+    <head>
+        <script type="text/javascript" src="js/lib/jquery-1.8.3.min.js"></script>
+        <script type="text/javascript" src="js/opc-lib-min.js"></script>
+        <script type="text/javascript" src="js/lib/json2.js"></script>
+        <link rel="stylesheet" stype="text/css" href="css/opc-style.css"/>
+        <script type="text/javascript">
+            OPC_config = {
+                token:'7e61b230-481d-4551-b24b-ba9046e3d8f2',
+                serverURL: 'http://localhost:58725'
+            };
+        </script>
+	<style>
+		table, th, td {
+		border: 1px solid green;
+  		border-collapse: collapse;
+		width: 25%;
+		color: #2ECC71;
+		background-color: Black;
+		}
+		th, td {
+    		padding: 5px;
+    		text-align: left;
+		}
+		table#t01 {
+		width: 50%;
+		background-color: Black;
+		color: &#2ECC71;  
+		}
+	</Style
+    </head>
+    <body>
+
+<script type="text/javascript">
+tday=new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
+tmonth=new Array("January","February","March","April","May","June","July","August","September","October","November","December");
+
+function GetClock(){
+var d=new Date();
+var nday=d.getDay(),nmonth=d.getMonth(),ndate=d.getDate(),nyear=d.getFullYear();
+var nhour=d.getHours(),nmin=d.getMinutes(),nsec=d.getSeconds(),ap;
+
+if(nhour==0){ap=" AM";nhour=12;}
+else if(nhour<12){ap=" AM";}
+else if(nhour==12){ap=" PM";}
+else if(nhour>12){ap=" PM";nhour-=12;}
+
+<!--CHANGABLE VARIABLES!-->
+<!-- All rates are relative to Kilowatt Hours -->
+var Wattage = 40;
+var ElecRate = 0.15;
+var GasRate = 0.016;
+var GasTherms = 0.11;
+var HeatedWaterRate = 0.95;
+var HeatedWaterTherms = 0.045;
+
+<!-- Total Kilowatt Hour runtime -->
+var secHours = nhour*3600;
+var secMins = nmin*60;
+var secToday = secHours + secMins + nsec;
+var totalsecs = secToday + DaysInSecondsCount;
+var CumulativeWattHours = Wattage*totalsecs/3600;
+var ElectricityCostReduced = ElecRate*CumulativeWattHours;
+var GasCost = CumulativeWattHours*GasRate;
+var GasThermsProduced = CumulativeWattHours*GasTherms;
+var HeatedWaterCostReduced = CumulativeWattHours*HeatedWaterRate;
+var HeatedWaterThermsProduced = CumulativeWattHours*HeatedWaterTherms;
+var TotalSavings = HeatedWaterCostReduced - GasCost + ElectricityCostReduced; 
+
+<!--FORMATTING-->
+var CumulativeWattHours = parseFloat(CumulativeWattHours).toFixed(2);
+var ElectricityCostReduced = parseFloat(ElectricityCostReduced).toFixed(2);
+var GasCost = parseFloat(GasCost).toFixed(2);
+var GasThermsProduced = parseFloat(GasThermsProduced).toFixed(2);
+var HeatedWaterCostReduced = parseFloat(HeatedWaterCostReduced).toFixed(2);
+var HeatedWaterThermsProduced = parseFloat(HeatedWaterThermsProduced).toFixed(2);
+var TotalSavings = parseFloat(TotalSavings).toFixed(2);
+if(nmin<=9) nmin="0"+nmin;
+if(nsec<=9) nsec="0"+nsec;
+
+document.getElementById('CollectiveSeconds').innerHTML=totalsecs;
+document.getElementById('TotalKWatts').innerHTML=CumulativeWattHours;
+document.getElementById('EleCostReduc').innerHTML=ElectricityCostReduced ;
+document.getElementById('GasSavings').innerHTML=GasCost;
+document.getElementById('GasTherms').innerHTML=GasThermsProduced;
+document.getElementById('HotWaterSavings').innerHTML=HeatedWaterCostReduced;
+document.getElementById('HotWaterTherms').innerHTML=HeatedWaterThermsProduced;
+document.getElementById('Savings').innerHTML=TotalSavings;
+}
+
+Date.daysBetween = function( date1, date2 ) {
+  <!--Get 1 day in milliseconds-->
+  var one_day=1000*60*60*24;
+
+  <!-- Convert both dates to milliseconds-->
+  var date1_ms = date1.getTime();
+  var date2_ms = date2.getTime();
+
+  <!-- Calculate the difference in milliseconds-->
+  var difference_ms = date2_ms - date1_ms;
+    
+  <!-- Convert back to days and return-->
+  return Math.round(difference_ms/one_day); 
+}
+
+<!--Set the two dates-->
+var y2k  = new Date(2018, 0, 1); 
+var Jan1st2010 = new Date(y2k.getFullYear(), y2k.getMonth(), y2k.getDate());
+var today= new Date();
+var differencebetweendays = Date.daysBetween(Jan1st2010, today);
+var DaysInSecondsCount = differencebetweendays*86400;
+<!--displays 726-->
+console.log( 'Days since ' 
+           + Jan1st2010.toLocaleDateString() + ': ' 
+           + Date.daysBetween(Jan1st2010, today));
+
+window.onload=function(){
+GetClock();
+setInterval(GetClock,1000);
+}
+
+</script>
+
+
+
+<div id="CollectiveSeconds"></div>
+
+
+
+Simulation production stats
+
+
+
+
+
+
+
+<table style="width:100%">
+  <tr>
+    <th>Electricity cost reduced</th>
+    <th>$<label id="EleCostReduc","config":{"formats":	{"bad_q":"Offline","float":"0.0"}}' ></label></th> 
+  </tr>
+  <tr>
+    <td>Gas Cost</td>
+    <td>$<label id="GasSavings","config":{"formats":	{"bad_q":"Offline","float":"0.0"}}' ></label></td>
+  </tr>
+  <tr>
+    <td>Gas Therms Produced</td>
+    <td><label id="GasTherms","config":{"formats":	{"bad_q":"Offline","float":"0.0"}}' ></label> Therms</td>
+  </tr>
+  <tr>
+    <td>Heated Water cost saved</td>
+    <td>$<label id="HotWaterSavings","config":{"formats":	{"bad_q":"Offline","float":"0.0"}}' ></label></td>
+  </tr>
+  <tr>
+    <td>Heated Water Therms</td>
+    <td><label id="HotWaterTherms","config":{"formats":	{"bad_q":"Offline","float":"0.0"}}' ></label> Therms</td>
+  </tr>
+  <tr>
+    <td>Net Savings</td>
+    <td>$<label id="Savings","config":{"formats":	{"bad_q":"Offline","float":"0.0"}}' ></label></td>
+  </tr>
+  <tr>
+    <td>Total Kilowatt-Hours</td>
+    <td><label id="TotalKWatts","config":{"formats":	{"bad_q":"Offline","float":"0.0"}}' ></label> KW &middot H</td>
+  </tr>
+</table>
+
+
+    </body>
 </html>
