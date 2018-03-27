@@ -12,23 +12,43 @@
             };
         </script>
 	<style>
-		table, th, td {
-		border: 1px solid green;
-  		border-collapse: collapse;
-		width: 25%;
-		color: #2ECC71;
-		background-color: Black;
+		h2.a {
+		visibility: hidden;
 		}
-		th, td {
-    		padding: 5px;
-    		text-align: left;
+
+		table.blueTable {
+		  border: 6px solid #BEBDBE;
+		  background-color: #000000;
+		  width: 1000px;
+		  text-align: center;
 		}
-		table#t01 {
-		width: 50%;
-		background-color: Black;
-		color: &#2ECC71;  
+		table.blueTable td, table.blueTable th {
+		  border: 5px solid #AAAAAA;
+		  padding: 3px 2px;
 		}
-	</Style
+		table.blueTable tbody td {
+		  font-size: 28px;
+		  font-weight: bold;
+		  color: #00C401;
+		}
+		table.blueTable td:nth-child(even) {
+		  background: #F3F2F3;
+		}
+		table.blueTable tfoot td {
+		  font-size: 14px;
+		}
+		table.blueTable tfoot .links {
+		  text-align: right;
+		}
+		table.blueTable tfoot .links a{
+		  display: inline-block;
+		  background: #1C6EA4;
+		  color: #FFFFFF;
+		  padding: 2px 8px;
+		  border-radius: 5px;
+		}
+
+	</Style>
     </head>
     <body>
 
@@ -124,49 +144,40 @@ setInterval(GetClock,1000);
 
 
 
-<div id="CollectiveSeconds"></div>
-
-
-
-Simulation production stats
-
-
-
-
-
-
-
-<table style="width:100%">
+<table class="blueTable">
+<tbody>
   <tr>
-    <th>Electricity cost reduced</th>
-    <th>$<label id="EleCostReduc","config":{"formats":	{"bad_q":"Offline","float":"0.0"}}' ></label></th> 
+    <td>$<label id="EleCostReduc","config":{"formats":	{"bad_q":"Offline","float":"0.0"}}' ></label></td> 
+    <td>Electricity cost reduced</td>
   </tr>
   <tr>
-    <td>Gas Cost</td>
     <td>$<label id="GasSavings","config":{"formats":	{"bad_q":"Offline","float":"0.0"}}' ></label></td>
+    <td>Gas Cost</td>
   </tr>
   <tr>
-    <td>Gas Therms Produced</td>
     <td><label id="GasTherms","config":{"formats":	{"bad_q":"Offline","float":"0.0"}}' ></label> Therms</td>
+    <td>Gas Therms Produced</td>
   </tr>
   <tr>
-    <td>Heated Water cost saved</td>
     <td>$<label id="HotWaterSavings","config":{"formats":	{"bad_q":"Offline","float":"0.0"}}' ></label></td>
+    <td>Heated Water cost saved</td>
   </tr>
   <tr>
-    <td>Heated Water Therms</td>
     <td><label id="HotWaterTherms","config":{"formats":	{"bad_q":"Offline","float":"0.0"}}' ></label> Therms</td>
+    <td>Heated Water Therms</td>
   </tr>
   <tr>
-    <td>Net Savings</td>
     <td>$<label id="Savings","config":{"formats":	{"bad_q":"Offline","float":"0.0"}}' ></label></td>
+    <td>Net Savings</td>
   </tr>
   <tr>
-    <td>Total Kilowatt-Hours</td>
     <td><label id="TotalKWatts","config":{"formats":	{"bad_q":"Offline","float":"0.0"}}' ></label> KW &middot H</td>
+    <td>Total Kilowatt-Hours</td>
   </tr>
+</tbody>
 </table>
 
+<h2 class="a"><div id="CollectiveSeconds"></div></h2>
 
     </body>
 </html>
